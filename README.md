@@ -30,32 +30,6 @@ micromamba env create -f dependencies/mamba_environment.yml
 micromamba activate varrna
 ```
 
-## Install ANNOVAR
-
-Download and extract [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) (requires user agreement):
-```bash
-wget <link/to/annovar/tar/file> -P dependencies/
-tar -xvzf dependencies/annovar.latest.tar.gz -C dependencies/
-```
-
-Download ANNOVAR databases
-```bash
-dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar gnomad30_genome dependencies/human_db
-dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar clinvar_20221231 dependencies/human_db
-dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar dbnsfp42a dependencies/human_db
-dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar refGene dependencies/human_db
-dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar cosmic70 dependencies/human_db
-```
-
-## Install Salmon
-Download salmon and build index
-```bash
-wget https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz -P dependencies/
-tar -xvzf dependencies/salmon-1.9.0_linux_x86_64.tar.gz -C dependencies/
-
-dependencies/salmon-1.9.0_linux_x86_64/bin/salmon index -t $resources/gencode.v47.transcripts.fa.gz -i dependencies/gencode.v47.transcripts_index
-```
-
 ## Download Resources
 
 ### Resource bundle (curated data and models)
@@ -95,6 +69,31 @@ These scripts are deprecated (some public URLs have moved) but are retained for 
 ```bash
 get_resources.sh
 process_resources.sh
+```
+
+## Install ANNOVAR
+
+Download and extract [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) (requires user agreement):
+```bash
+wget <link/to/annovar/tar/file> -P dependencies/
+tar -xvzf dependencies/annovar.latest.tar.gz -C dependencies/
+```
+
+Download ANNOVAR databases
+```bash
+dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar gnomad30_genome dependencies/human_db
+dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar clinvar_20221231 dependencies/human_db
+dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar dbnsfp42a dependencies/human_db
+dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar refGene dependencies/human_db
+dependencies/annovar/annotate_variation.pl -downdb -buildver hg38 -webfrom annovar cosmic70 dependencies/human_db
+```
+
+## Install Salmon
+Download salmon and build index
+```bash
+wget https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz -P dependencies/
+tar -xvzf dependencies/salmon-1.9.0_linux_x86_64.tar.gz -C dependencies/
+dependencies/salmon-1.9.0_linux_x86_64/bin/salmon index -t resources/gencode.v47.transcripts.fa.gz -i dependencies/gencode.v47.transcripts_index
 ```
 
 Input data
