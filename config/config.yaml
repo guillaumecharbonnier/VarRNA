@@ -13,6 +13,8 @@ dependencies:
   salmon_index: "../dependencies/gencode.v47.transcripts_index/"
   annovar: "../dependencies/annovar"
   annovar_db: "../dependencies/human_db/"
+  star: "../dependencies/STAR"
+  star_index: "../resources/star_index/"
 
 reference:
   fasta: "../resources/GRCh38.p13.genome.fa"
@@ -32,6 +34,8 @@ models:
   germsom: "../resources/xgb/xgb_germsom.pkl"
 
 params:
+  star:
+    threads: 20
   gatk:
     BaseRecalibrator: ""
     HaplotypeCaller:

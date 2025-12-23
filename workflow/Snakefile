@@ -14,6 +14,7 @@ rule all:
     input:
         get_all_inputs()
 
+include: "rules/star_alignment.smk"
 include: "rules/process_bam.smk"
 include: "rules/bam_to_fastq.smk"
 include: "rules/salmon.smk"
