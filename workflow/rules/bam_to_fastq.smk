@@ -25,5 +25,5 @@ rule symlink_fastq_for_salmon:
         "logs/symlink_fastq/{sample}.log",
     threads: 1
     shell:
-        "ln -sf $(realpath {input.r1}) {output.fastq1} && "
+        "ln -sf $(realpath {input.r1}) {output.fastq1}; "
         "ln -sf $(realpath {input.r2}) {output.fastq2}"

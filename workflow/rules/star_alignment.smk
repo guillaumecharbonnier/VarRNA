@@ -1,3 +1,6 @@
+# Note: STAR alignment rules assume gzipped FASTQ files (.fastq.gz or .fq.gz)
+# For uncompressed FASTQ files, remove the '--readFilesCommand zcat' parameter
+
 rule star_first_pass:
     input:
         r1=get_fastq_r1,

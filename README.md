@@ -128,7 +128,9 @@ MySample1,,/path/to/MySample1_R1.fastq.gz,/path/to/MySample1_R2.fastq.gz,female
 MySample2,,/path/to/MySample2_R1.fastq.gz,/path/to/MySample2_R2.fastq.gz,male
 ```
 
-**Note**: When using FASTQ input, leave the `file_path` column empty and provide paths for `fastq_1` and `fastq_2`.
+**Note**: 
+- When using FASTQ input, leave the `file_path` column empty and provide paths for `fastq_1` and `fastq_2`.
+- FASTQ files should be gzipped (.fastq.gz or .fq.gz). For uncompressed files, modify `workflow/rules/star_alignment.smk` to remove the `--readFilesCommand zcat` parameter.
 
 ## B. Pre-aligned BAM files
 

@@ -31,7 +31,7 @@ def get_fastq_r1(wildcards):
     if pd.notna(fastq_1) and fastq_1 != "":
         return fastq_1
     else:
-        # Return a non-existent path that will cause the rule to not be selected
+        # Return empty list to signal this rule should not be used
         return []
 
 def get_fastq_r2(wildcards):
@@ -40,7 +40,7 @@ def get_fastq_r2(wildcards):
     if pd.notna(fastq_2) and fastq_2 != "":
         return fastq_2
     else:
-        # Return a non-existent path that will cause the rule to not be selected
+        # Return empty list to signal this rule should not be used
         return []
 
 def get_input_bam_for_processing(wildcards):
