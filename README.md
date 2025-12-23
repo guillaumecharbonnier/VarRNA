@@ -99,24 +99,77 @@ dependencies/salmon-1.9.0_linux_x86_64/bin/salmon index -t resources/gencode.v47
 Input data
 ======
 
-## A. FASTQ files
-Prepare RNA-Seq FASTQ files by performing quality control (e.g., FastQC) and read trimming. Use the provided scripts to align reads with STAR:
+The VarRNA pipeline supports two input modes: **FASTQ files** (with integrated STAR 2-pass alignment) or **pre-aligned BAM files**.
+
+## A. FASTQ files (Integrated STAR 2-pass alignment)
+
+The pipeline can now perform STAR 2-pass alignment directly within Snakemake. This is the recommended approach for most users.
+
+### Setup requirements:
+1. **Prepare FASTQ files**: Perform quality control (e.g., FastQC) and read trimming on your raw FASTQ files.
+
+2. **Build STAR genome index**: If not already done, build the STAR genome index:
 ```bash
 cd Alignment
 bash get_star.sh              # Download STAR
 bash star_genome_build.sh     # Build genome index (edit `sjdbOverhang` if necessary)
-bash star_alignment.sh <sample>  # Align reads
 ```
 
+3. **Configure the pipeline**: 
+   - Ensure `config/config.yaml` has the correct paths for:
+     - `dependencies.star`: Path to STAR binary
+     - `dependencies.star_index`: Path to STAR genome index
+     - `params.star.threads`: Number of threads for STAR (default: 20)
 
-## B. BAM files
+4. **Update samples.csv**: Add your samples with FASTQ file paths:
+```csv
+sample,file_path,fastq_1,fastq_2,sex
+MySample1,,/path/to/MySample1_R1.fastq.gz,/path/to/MySample1_R2.fastq.gz,female
+MySample2,,/path/to/MySample2_R1.fastq.gz,/path/to/MySample2_R2.fastq.gz,male
+```
 
-Ensure consistency between the reference genome used for alignment and the pipeline's reference. Update `config/config.yaml` (reference - fasta) to match the BAM file reference.
+**Note**: When using FASTQ input, leave the `file_path` column empty and provide paths for `fastq_1` and `fastq_2`.
+
+## B. Pre-aligned BAM files
+
+If you have pre-aligned BAM files, the pipeline can use them directly.
+
+### Requirements:
+- Ensure consistency between the reference genome used for alignment and the pipeline's reference. 
+- Update `config/config.yaml` (reference - fasta) to match the BAM file reference.
+
+### Update samples.csv:
+```csv
+sample,file_path,fastq_1,fastq_2,sex
+MySample1,/path/to/MySample1.bam,,,female
+MySample2,/path/to/MySample2.bam,,,male
+```
+
+**Note**: When using BAM input, leave the `fastq_1` and `fastq_2` columns empty and provide the path in `file_path`.
+
+## Alternative: Manual STAR alignment (Legacy)
+
+For advanced users who prefer to run STAR alignment separately:
+```bash
+cd Alignment
+bash star_alignment.sh <sample>  # Align reads
+```
+Then use the resulting BAM file in the samples.csv as described in section B.
 
 
 ## Sample input file
 
-Modify the ```config/samples.csv``` file to add the sample names and paths.
+Modify the ```config/samples.csv``` file to add the sample names and paths. The CSV format supports both FASTQ and BAM inputs:
+
+```csv
+sample,file_path,fastq_1,fastq_2,sex
+```
+
+- **sample**: Unique sample identifier
+- **file_path**: Path to BAM file (use only for pre-aligned BAM input)
+- **fastq_1**: Path to R1 FASTQ file (use only for FASTQ input)
+- **fastq_2**: Path to R2 FASTQ file (use only for FASTQ input)
+- **sex**: Sample sex (male/female)
 
 
 Output files
@@ -151,8 +204,8 @@ snakemake --cores 2
 ### Step 1: setup
 To confirm that VarRNA is set up correctly, use the provided test dataset referenced in the `config/samples.csv` file:
 ```
-sample,file_path,sex
-SRR31139166,../results/SRR31139166/BAMs/SRR31139166.Aligned.sortedByCoord.out.chr22.bam,female
+sample,file_path,fastq_1,fastq_2,sex
+SRR31139166,../resources/example_data/SRR31139166.Aligned.sortedByCoord.out.chr22.bam,,,female
 ```
 
 ### Step 2: run the test
