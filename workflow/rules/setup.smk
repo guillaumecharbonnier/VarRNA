@@ -27,11 +27,21 @@ def has_fastq_input(wildcards):
 
 def get_fastq_r1(wildcards):
     """Get FASTQ R1 file path."""
-    return(rna_samples.loc[wildcards.sample, "fastq_1"])
+    fastq_1 = rna_samples.loc[wildcards.sample, "fastq_1"]
+    if pd.notna(fastq_1) and fastq_1 != "":
+        return fastq_1
+    else:
+        # Return a non-existent path that will cause the rule to not be selected
+        return []
 
 def get_fastq_r2(wildcards):
     """Get FASTQ R2 file path."""
-    return(rna_samples.loc[wildcards.sample, "fastq_2"])
+    fastq_2 = rna_samples.loc[wildcards.sample, "fastq_2"]
+    if pd.notna(fastq_2) and fastq_2 != "":
+        return fastq_2
+    else:
+        # Return a non-existent path that will cause the rule to not be selected
+        return []
 
 def get_input_bam_for_processing(wildcards):
     """Get the BAM file for processing - either from file_path or from STAR alignment."""
