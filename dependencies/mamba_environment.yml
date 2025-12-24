@@ -18,3 +18,4 @@ dependencies:
   - scikit-learn=1.5.2
   - imbalanced-learn=0.12.4
   - samtools=1.21
+  - star=2.7.11b

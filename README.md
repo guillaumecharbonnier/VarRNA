@@ -108,12 +108,11 @@ The pipeline can now perform STAR 2-pass alignment directly within Snakemake. Th
 ### Setup requirements:
 1. **Prepare FASTQ files**: Perform quality control (e.g., FastQC) and read trimming on your raw FASTQ files.
 
-2. **STAR resources**: The pipeline will automatically download STAR and build the genome index on first run if they don't exist. No manual setup required!
+2. **STAR resources**: STAR is installed as part of the conda environment. The genome index will be built automatically on first run if it doesn't exist.
 
 3. **Configure the pipeline** (optional): 
    - Default paths in `config/config.yaml`:
-     - `dependencies.star`: `../dependencies/STAR` (auto-downloaded)
-     - `dependencies.star_index`: `../resources/star_index/` (auto-built)
+     - `dependencies.star_index`: `../resources/star_index/` (auto-built on first run)
      - `params.star.threads`: Number of threads for STAR (default: 20)
      - `params.star.sjdb_overhang`: Should be max(read_length)-1 (default: 160)
    - Adjust `params.star.sjdb_overhang` if your read length differs significantly from 161bp

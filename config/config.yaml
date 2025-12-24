@@ -1,6 +1,8 @@
-# If necessary, change environment variables to match your environment setup
-micromamba_path: "$HOME/micromamba/etc/profile.d/micromamba.sh"
-micromamba_env: "varrna"
+# Environment activation settings (optional)
+# If you're using micromamba and need explicit activation, uncomment and set these:
+# micromamba_path: "$HOME/micromamba/etc/profile.d/micromamba.sh"
+# micromamba_env: "varrna"
+# If you already have conda/mamba activated, leave these commented out
 
 # Edit this file to add your own sample paths
 samples: "../config/samples.csv"
@@ -13,7 +15,6 @@ dependencies:
   salmon_index: "../dependencies/gencode.v47.transcripts_index/"
   annovar: "../dependencies/annovar"
   annovar_db: "../dependencies/human_db/"
-  star: "../dependencies/STAR"
   star_index: "../resources/star_index/"
 
 reference:

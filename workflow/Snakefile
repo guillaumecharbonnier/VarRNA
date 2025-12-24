@@ -2,11 +2,13 @@ import os
 
 configfile: "../config/config.yaml"
 
-micromamba_path = os.path.expandvars(config["micromamba_path"])
-micromamba_env = config["micromamba_env"]
-
-shell.prefix(f"source {micromamba_path}; micromamba activate {micromamba_env}; ")
-#shell.prefix("source $HOME/micromamba/etc/profile.d/micromamba.sh; micromamba activate varrna; ")
+# Setup conda/micromamba activation if specified
+# If not specified or path doesn't exist, assume conda is already activated
+if "micromamba_path" in config and "micromamba_env" in config:
+    micromamba_path = os.path.expandvars(config["micromamba_path"])
+    micromamba_env = config["micromamba_env"]
+    if os.path.exists(micromamba_path):
+        shell.prefix(f"source {micromamba_path}; micromamba activate {micromamba_env}; ")
 
 include: "rules/setup.smk"
 
