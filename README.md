@@ -108,18 +108,15 @@ The pipeline can now perform STAR 2-pass alignment directly within Snakemake. Th
 ### Setup requirements:
 1. **Prepare FASTQ files**: Perform quality control (e.g., FastQC) and read trimming on your raw FASTQ files.
 
-2. **Build STAR genome index**: If not already done, build the STAR genome index:
-```bash
-cd Alignment
-bash get_star.sh              # Download STAR
-bash star_genome_build.sh     # Build genome index (edit `sjdbOverhang` if necessary)
-```
+2. **STAR resources**: The pipeline will automatically download STAR and build the genome index on first run if they don't exist. No manual setup required!
 
-3. **Configure the pipeline**: 
-   - Ensure `config/config.yaml` has the correct paths for:
-     - `dependencies.star`: Path to STAR binary
-     - `dependencies.star_index`: Path to STAR genome index
+3. **Configure the pipeline** (optional): 
+   - Default paths in `config/config.yaml`:
+     - `dependencies.star`: `../dependencies/STAR` (auto-downloaded)
+     - `dependencies.star_index`: `../resources/star_index/` (auto-built)
      - `params.star.threads`: Number of threads for STAR (default: 20)
+     - `params.star.sjdb_overhang`: Should be max(read_length)-1 (default: 160)
+   - Adjust `params.star.sjdb_overhang` if your read length differs significantly from 161bp
 
 4. **Update samples.csv**: Add your samples with FASTQ file paths:
 ```csv
@@ -151,9 +148,11 @@ MySample2,/path/to/MySample2.bam,,,male
 
 ## Alternative: Manual STAR alignment (Legacy)
 
-For advanced users who prefer to run STAR alignment separately:
+For advanced users who prefer to run STAR alignment separately outside the Snakemake workflow:
 ```bash
 cd Alignment
+bash get_STAR.sh               # Download STAR (if needed)
+bash star_genome_build.sh      # Build genome index (if needed)
 bash star_alignment.sh <sample>  # Align reads
 ```
 Then use the resulting BAM file in the samples.csv as described in section B.
