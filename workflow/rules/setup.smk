@@ -17,7 +17,11 @@ wildcard_constraints:
 ##### Helper functions #####
 def get_rna_sample_bams(wildcards):
     """Get input RNA BAM file of a given sample."""
-    return(rna_samples.loc[wildcards.sample, "file_path"])
+    file_path = rna_samples.loc[wildcards.sample, "file_path"]
+    if pd.notna(file_path) and file_path != "":
+        return file_path
+    else:
+        return []
 
 def has_fastq_input(wildcards):
     """Check if sample has FASTQ input."""

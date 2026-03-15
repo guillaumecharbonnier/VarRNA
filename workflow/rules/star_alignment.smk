@@ -35,6 +35,7 @@ rule star_first_pass:
     params:
         prefix="../results/{sample}/BAMs/{sample}.temp.",
         genome_dir=config["dependencies"]["star_index"],
+        tmp_dir=config["params"]["star"].get("tmp_dir", "/tmp"),
     threads: config["params"]["star"]["threads"]
     shell:
         "STAR "
@@ -45,7 +46,8 @@ rule star_first_pass:
         "--outSAMtype BAM SortedByCoordinate "
         "--outFileNamePrefix {params.prefix} "
         "--outSAMunmapped Within "
-        "> {log} 2>&1"
+        "--outTmpDir {params.tmp_dir}/_STARtmp_{wildcards.sample} "
+        "> {log} 2>&1 && rm -rf {params.tmp_dir}/_STARtmp_{wildcards.sample}"
 
 rule star_second_pass:
     input:
@@ -60,6 +62,7 @@ rule star_second_pass:
     params:
         prefix="../results/{sample}/BAMs/{sample}.",
         genome_dir=config["dependencies"]["star_index"],
+        tmp_dir=config["params"]["star"].get("tmp_dir", "/tmp"),
     threads: config["params"]["star"]["threads"]
     shell:
         "STAR "
@@ -71,4 +74,5 @@ rule star_second_pass:
         "--outSAMtype BAM SortedByCoordinate "
         "--outFileNamePrefix {params.prefix} "
         "--outSAMunmapped Within "
-        "> {log} 2>&1"
+        "--outTmpDir {params.tmp_dir}/_STARtmp_{wildcards.sample} "
+        "> {log} 2>&1 && rm -rf {params.tmp_dir}/_STARtmp_{wildcards.sample}"
