@@ -17,7 +17,42 @@ wildcard_constraints:
 ##### Helper functions #####
 def get_rna_sample_bams(wildcards):
     """Get input RNA BAM file of a given sample."""
-    return(rna_samples.loc[wildcards.sample, "file_path"])
+    file_path = rna_samples.loc[wildcards.sample, "file_path"]
+    if pd.notna(file_path) and file_path != "":
+        return file_path
+    else:
+        return []
+
+def has_fastq_input(wildcards):
+    """Check if sample has FASTQ input."""
+    fastq_1 = rna_samples.loc[wildcards.sample, "fastq_1"]
+    fastq_2 = rna_samples.loc[wildcards.sample, "fastq_2"]
+    return pd.notna(fastq_1) and pd.notna(fastq_2) and fastq_1 != "" and fastq_2 != ""
+
+def get_fastq_r1(wildcards):
+    """Get FASTQ R1 file path."""
+    fastq_1 = rna_samples.loc[wildcards.sample, "fastq_1"]
+    if pd.notna(fastq_1) and fastq_1 != "":
+        return fastq_1
+    else:
+        # Return empty list to signal this rule should not be used
+        return []
+
+def get_fastq_r2(wildcards):
+    """Get FASTQ R2 file path."""
+    fastq_2 = rna_samples.loc[wildcards.sample, "fastq_2"]
+    if pd.notna(fastq_2) and fastq_2 != "":
+        return fastq_2
+    else:
+        # Return empty list to signal this rule should not be used
+        return []
+
+def get_input_bam_for_processing(wildcards):
+    """Get the BAM file for processing - either from file_path or from STAR alignment."""
+    if has_fastq_input(wildcards):
+        return f"../results/{wildcards.sample}/BAMs/{wildcards.sample}.Aligned.sortedByCoord.out.bam"
+    else:
+        return rna_samples.loc[wildcards.sample, "file_path"]
 
 def get_sample_sex(wildcards):
     """Get the sex of a given sample."""

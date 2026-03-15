@@ -1,2 +1,2 @@
-sample,file_path,sex
-SRR31139166,../resources/example_data/SRR31139166.Aligned.sortedByCoord.out.chr22.bam,female
+sample,file_path,fastq_1,fastq_2,sex
+SRR31139166,../resources/example_data/SRR31139166.Aligned.sortedByCoord.out.chr22.bam,,,female

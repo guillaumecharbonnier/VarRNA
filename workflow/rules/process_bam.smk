@@ -1,6 +1,6 @@
 rule add_read_groups:
     input:
-        get_rna_sample_bams,
+        get_input_bam_for_processing,
     output:
         temp("../results/{sample}/BAMs/{sample}.AddReadGroup.bam"),
     log:

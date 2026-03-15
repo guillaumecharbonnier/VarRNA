@@ -2,7 +2,6 @@ name: varrna
 channels:
   - conda-forge
   - bioconda
-  - defaults
 dependencies:
   - bcftools=1.21
   - bedtools=2.31.1
@@ -18,3 +17,5 @@ dependencies:
   - scikit-learn=1.5.2
   - imbalanced-learn=0.12.4
   - samtools=1.21
+  - star=2.7.11b
+  - salmon
