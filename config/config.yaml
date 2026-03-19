@@ -54,6 +54,11 @@ params:
         -A Coverage
         -A ReadPosition
         -A ReadPosRankSumTest
+  salmon:
+    # Library type passed to salmon quant -l. Use 'A' for auto-detection (default).
+    # For Agilent XT-HS2 or other libraries where auto-detection fails, set explicitly
+    # (e.g. 'ISR' for inward, stranded, read1 reverse; 'ISF' for forward; 'IU' for unstranded).
+    libtype: "A"
   picard:
     AddReadGroups: ""
     MarkDuplicates: ""
